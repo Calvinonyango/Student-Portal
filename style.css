@@ -1,0 +1,394 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Login Page */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.logo p {
+    color: #666;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+.error-message {
+    color: #e53e3e;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.demo-credentials {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+.demo-credentials p {
+    margin: 5px 0;
+}
+
+/* Dashboard */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard-header {
+    background: white;
+    border-radius: 15px;
+    padding: 20px 30px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-info h2 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.student-info p {
+    color: #666;
+}
+
+.logout-btn {
+    width: auto;
+    padding: 10px 25px;
+    background: #e53e3e;
+}
+
+.logout-btn:hover {
+    background: #c53030;
+}
+
+/* Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: #f7fafc;
+    padding: 15px 20px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    color: #333;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Results Table */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.results-table th {
+    background: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.grade-A {
+    color: #38a169;
+    font-weight: bold;
+}
+
+.grade-B {
+    color: #3182ce;
+    font-weight: bold;
+}
+
+.grade-C {
+    color: #d69e2e;
+    font-weight: bold;
+}
+
+.grade-D {
+    color: #dd6b20;
+    font-weight: bold;
+}
+
+.grade-F {
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.status-pass {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.status-fail {
+    background: #fed7d7;
+    color: #742a2a;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.gpa-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f5ff;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Fee Balance */
+.balance-amount {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.balance-positive {
+    color: #38a169;
+}
+
+.balance-negative {
+    color: #e53e3e;
+}
+
+.fee-breakdown {
+    margin: 20px 0;
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.payment-progress {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 10px;
+}
+
+.progress-fill {
+    background: #38a169;
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.payment-btn {
+    background: #38a169;
+}
+
+.payment-btn:hover {
+    background: #2f855a;
+}
+
+/* Activity List */
+.activity-list {
+    list-style: none;
+}
+
+.activity-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.activity-list li:before {
+    content: "📌";
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .results-table {
+        font-size: 12px;
+    }
+}
+
+/* Status badges */
+.status-pass {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.status-fail {
+    background: #fed7d7;
+    color: #742a2a;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+/* Activity list */
+.activity-list {
+    list-style: none;
+}
+
+.activity-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.activity-list li:before {
+    content: "📌";
+}
+
+/* Progress bar */
+.progress-bar {
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 10px;
+    margin: 15px 0;
+}
+
+.progress-fill {
+    background: #38a169;
+    height: 100%;
+    transition: width 0.3s;
+}
+
+/* Semester selector */
+.semester-selector {
+    margin-bottom: 20px;
+}
+
+.semester-selector select {
+    width: auto;
+    display: inline-block;
+    margin-left: 10px;
+}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .login-card .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #e53e3e;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            color: #38a169;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .demo-credentials {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .demo-credentials p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h1>🎓 Student Portal</h1>
+        <div class="subtitle">Login to access your results</div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="student@school.edu" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" id="loginBtn">Login →</button>
+            <div id="messageArea"></div>
+        </form>
+
+        <div class="demo-credentials">
+            <p><strong>📝 Demo Credentials:</strong></p>
+            <p>📧 alice@student.edu / pass123</p>
+            <p>📧 brian@student.edu / pass123</p>
+            <p>📧 catherine@student.edu / pass123</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs (compat version for easier use) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ============================================
+        // YOUR CORRECT FIREBASE CONFIGURATION
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCO1GUKud-Q0RE7GMgSIOqDqfUdG5WfaU0",
+            authDomain: "student-portal-64b92.firebaseapp.com",
+            projectId: "student-portal-64b92",
+            storageBucket: "student-portal-64b92.firebasestorage.app",
+            messagingSenderId: "965857281125",
+            appId: "1:965857281125:web:2d1ad63b5447a89a77328c"
+        };
+
+        console.log("🔥 Loading Firebase with config:", firebaseConfig);
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        console.log("✅ Firebase initialized successfully!");
+
+        // Get DOM elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const messageArea = document.getElementById('messageArea');
+
+        // Login form submit handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Clear previous messages
+            messageArea.innerHTML = '';
+
+            // Disable button and show loading
+            loginBtn.textContent = '⏳ Logging in...';
+            loginBtn.disabled = true;
+
+            console.log(`🔐 Attempting login for: ${email}`);
+
+            try {
+                // Step 1: Authenticate with Firebase
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log("✅ Authentication successful!", userCredential.user.email);
+
+                // Step 2: Get student data from Firestore
+                const studentsQuery = await db.collection('students')
+                    .where('email', '==', email)
+                    .get();
+
+                if (studentsQuery.empty) {
+                    throw new Error('Student record not found in database');
+                }
+
+                const studentDoc = studentsQuery.docs[0];
+                const studentData = studentDoc.data();
+                console.log("✅ Student data loaded:", studentData);
+
+                // Step 3: Save to session storage
+                sessionStorage.setItem('studentId', studentData.studentId);
+                sessionStorage.setItem('studentName', studentData.name);
+                sessionStorage.setItem('studentEmail', studentData.email);
+                sessionStorage.setItem('studentProgram', studentData.program);
+                sessionStorage.setItem('studentData', JSON.stringify(studentData));
+
+                // Step 4: Show success and redirect
+                messageArea.innerHTML = '<div class="success-message">✅ Login successful! Redirecting...</div>';
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500);
+
+            } catch (error) {
+                console.error("❌ Login error:", error.code, error.message);
+
+                let errorMessage = '';
+                switch (error.code) {
+                    case 'auth/api-key-not-valid':
+                        errorMessage = '🔑 API key invalid. Please check configuration.';
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = '📧 No account found with this email.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = '🔒 Incorrect password. Please try again.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = '📧 Invalid email format.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = '⏰ Too many failed attempts. Try again later.';
+                        break;
+                    default:
+                        errorMessage = `❌ Login failed: ${error.message}`;
+                }
+
+                messageArea.innerHTML = `<div class="error-message">${errorMessage}</div>`;
+                loginBtn.textContent = 'Login →';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Check if already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                console.log("👤 Already logged in as:", user.email);
+                // Optional: auto-redirect to dashboard
+                // window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+
+</html>
